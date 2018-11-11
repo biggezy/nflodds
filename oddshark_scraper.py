@@ -18,7 +18,8 @@ links = [
         t["home_name"], 
         "https://www.oddsshark.com{}".format(t["matchup_link"]),
         t["away_odds"],
-	t["home_odds"]
+	t["home_odds"],
+	t["total"]
     )
     for t in r.json()['matchups']
     if t["type"] == "matchup"
@@ -26,19 +27,23 @@ links = [
 
 for t in links:
   if "2018-11-11" in t[0]:
-    print("\n#########################################") 
-    print("{} - {} vs {} => {}\n".format(t[0],t[1],t[2],t[3]))
+    date = t[0]
     awayteam = t[1]
-    hometeam= t[2]
+    hometeam = t[2]
+    gamelink = t[3]
     awayspread = t[4]
     homespread = t[5]
-    r = requests.get(t[3])
+    overunder = t[6]
+    r = requests.get(gamelink)
     soup = BeautifulSoup(r.content, "lxml")
     trends = [
         json.loads(v.text)
         for v in soup.findAll('script', {"type":"application/json", "id":"gc-data"})
     ]
 
+    print("\n#########################################")
+    print("{} - {} vs {} => {}\n".format(date, awayteam, hometeam, gamelink))
+    print("O/U:", overunder, "\n")
     for side in ['away','home']:
       (team,spread) = (awayteam,awayspread) if side == 'away' else (hometeam, homespread)
       rawTrends = trends[0]["oddsshark_gamecenter"]["trends"][side]
