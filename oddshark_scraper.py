@@ -35,17 +35,11 @@ for t in links:
         for v in soup.findAll('script', {"type":"application/json", "id":"gc-data"})
     ]
 
-    awayTrends = trends[0]["oddsshark_gamecenter"]["trends"]["away"]
-    print (awayteam, "(AWAY) Trends")
-    for rawTrend in awayTrends:
-      parsedTrend = rawTrend["value"]
-      if re.search("over|under", parsedTrend, re.IGNORECASE):
-        print (parsedTrend)
-
-
-    homeTrends = trends[0]["oddsshark_gamecenter"]["trends"]["home"]
-    print (hometeam, "(HOME) Trends")
-    for rawTrend in homeTrends:
-      parsedTrend = rawTrend["value"]
-      if re.search("over|under", parsedTrend, re.IGNORECASE):
-        print (parsedTrend)
+    for side in ['away','home']:
+      team = awayteam if side == 'away' else hometeam
+      rawTrends = trends[0]["oddsshark_gamecenter"]["trends"][side]
+      print (team, side, "Trends")
+      for rawTrend in rawTrends:
+        parsedTrend = rawTrend["value"]
+        if re.search("over|under", parsedTrend, re.IGNORECASE):
+          print (parsedTrend)
