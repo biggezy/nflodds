@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import re
 import requests
 import json
@@ -26,7 +28,7 @@ links = [
 ]
 
 for t in links:
-  if "2018-11-11" in t[0]:
+  if "2018-11-25" in t[0]:
     date = t[0]
     awayteam = t[1]
     hometeam = t[2]
